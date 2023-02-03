@@ -1,0 +1,31 @@
+@media screen and (min-width: 480px) {
+    #numInput {
+        padding-left: 0rem;
+    }
+}
+@media screen and (max-width: 480px) {
+    #numInput {
+        padding-left: 1.75rem;
+    }
+}
+
+#sliderLabel {
+    padding: 0.5rem 0 0.5rem 1rem;
+    text-align: left;
+    float: left;
+}
+
+#sliderRemove {
+    padding: 0.5rem 0.5rem 0 0;
+    float: right;
+    color: #b3362d;
+    cursor: pointer;
+}
+
+#sliderRemove:hover {
+    color: #591a15;
+}
+
+#sliderGroup {
+    padding: 0 0 0.5rem 0;
+}

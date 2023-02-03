@@ -1,0 +1,16 @@
+.container {
+    margin-top: 5%;
+}
+
+#header {
+    margin: 0 0 2rem 0;
+    text-align: left;
+}
+
+.title {
+    font-weight: 200;
+}
+
+.subtitle {
+    font-weight: 300;
+}

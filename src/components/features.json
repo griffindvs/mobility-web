@@ -1,0 +1,104 @@
+{
+    "hhinc_mean2000":
+        {
+            "name": "Mean household income in 2000",
+            "min": 6000,
+            "max": 400000
+        },
+    "med_hhinc2016":
+        {
+            "name": "Median household income in 2016",
+            "min": 3000,
+            "max": 300000
+        },
+    "popdensity2010":
+        {
+            "name": "Number of residents per square mile in 2010",
+            "min": 0,
+            "max": 600000
+        },
+    "mean_commutetime2000":
+        {
+            "name": "Mean commute time for workers in 2000 (minutes)",
+            "min": 0,
+            "max": 90
+        },
+    "frac_coll_plus2010":
+        {
+            "name": "Proportion of people over 25 with a college degree in 2010 (%)",
+            "min": 0,
+            "max": 100
+        },
+    "poor_share2010":
+        {
+            "name": "Proportion of individuals below the poverty line in 2010 (%)",
+            "min": 0,
+            "max": 100
+        },
+    "gsmn_math_g3_2013":
+        {
+            "name": "Mean 3rd grade math test scores in 2013",
+            "min": -3,
+            "max": 7
+        },
+    "traveltime15_2010":
+        {
+            "name": "Proportion of workers not working at home with a commute less than 15 minutes in 2010 (%)",
+            "min": 0,
+            "max": 100
+        },
+    "emp2000":
+        {
+            "name": "Employment rate in 2000 (%)",
+            "min": 0,
+            "max": 100
+        },
+    "singleparent_share2010":
+        {
+            "name": "Proportion of single parent households in 2010 (%)",
+            "min": 0,
+            "max": 100
+        },
+    "mail_return_rate2010":
+        {
+            "name": "Proportion of 2010 Census mail forms completed and returned",
+            "min": 0,
+            "max": 100
+        },
+    "jobs_total_5mi_2015":
+        {
+            "name": "Total number of jobs within 5 miles",
+            "min": 0,
+            "max": 3000000
+        },
+    "jobs_highpay_5mi_2015":
+        {
+            "name": "Number of jobs with earnings over $3,333 per month",
+            "min": 0,
+            "max": 2000000
+        },
+    "job_density_2013":
+        {
+            "name": "Number of jobs per square mile",
+            "min": 0,
+            "max": 3000000
+        },
+    "rent_twobed2015":
+        {
+            "name": "Median gross rent for a 2 bedroom rental in 2015",
+            "min": 80,
+            "max": 4000
+        },
+    "ln_wage_growth_hs_grad":
+        {
+            "name": "Wage growth for highschool graduates",
+            "min": -4,
+            "max": 4
+        },
+    "ann_avg_job_growth_2004_2013":
+        {
+            "name": "Average annual job growth rate",
+            "min": -1,
+            "max": 2
+        }
+}
