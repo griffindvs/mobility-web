@@ -1,19 +1,9 @@
-# Object Detection Dataset Builder
+# Repo Name
 
-This is a quick and dirty React application to allow for easy labelling of objects in images. It was created to produce a training dataset for a project at the [UT Dallas Center for Machine Learning](https://cs.utdallas.edu/cmachinelearning/).
 
 ## Setting up the project locally
 
 The application is setup to work with a [Firestore database](https://firebase.google.com/docs/firestore). You'll need to copy the `firebaseConfig` JSON into `/src/firebaseConfig.json` to link your application with the backend.
-
-The following constants can be edited:
-- `NUM_IMAGES = 2243` (`src/components/ImageContainer/index.js`)
-- `classes = [...]` (`src/components/ImageContainer/index.js`)
-- `NUM_LABELS = classes.length` (`src/components/ImageContainer/index.js`)
-- `IMAGE_WIDTH = 640` (`src/components/BoundingBox/index.js`)
-- `IMAGE_HEIGHT = 360` (`src/components/BoundingBox/index.js`)
-
-The application assumes images are stored as `img/<number from 1 to NUM_IMAGES>.jpg`.
 
 ## Available scripts
 

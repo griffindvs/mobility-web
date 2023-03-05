@@ -43,7 +43,7 @@
         },
     "traveltime15_2010":
         {
-            "name": "Proportion of workers not working at home with a commute less than 15 minutes in 2010 (%)",
+            "name": "Proportion of workers with a commute less than 15 minutes in 2010 (%)",
             "min": 0,
             "max": 100
         },
@@ -82,18 +82,6 @@
             "name": "Number of jobs per square mile",
             "min": 0,
             "max": 3000000
-        },
-    "rent_twobed2015":
-        {
-            "name": "Median gross rent for a 2 bedroom rental in 2015",
-            "min": 80,
-            "max": 4000
-        },
-    "ln_wage_growth_hs_grad":
-        {
-            "name": "Wage growth for highschool graduates",
-            "min": -4,
-            "max": 4
         },
     "ann_avg_job_growth_2004_2013":
         {

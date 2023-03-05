@@ -1,121 +1,143 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
 import './index.css';
 
-import * as d3 from "d3"
-import DOMPurify from 'dompurify'
-
-// Copyright 2021 Observable, Inc.
-// Released under the ISC license.
-// https://observablehq.com/@d3/line-chart
-function LineChart(data, {
-    x = ([x]) => x, // given d in data, returns the (temporal) x-value
-    y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
-    defined, // for gaps in data
-    curve = d3.curveLinear, // method of interpolation between points
-    marginTop = 20, // top margin, in pixels
-    marginRight = 30, // right margin, in pixels
-    marginBottom = 30, // bottom margin, in pixels
-    marginLeft = 40, // left margin, in pixels
-    width = 640, // outer width, in pixels
-    height = 400, // outer height, in pixels
-    xType = d3.scaleLinear, // the x-scale type
-    xDomain, // [xmin, xmax]
-    xRange = [marginLeft, width - marginRight], // [left, right]
-    yType = d3.scaleLinear, // the y-scale type
-    yDomain, // [ymin, ymax]
-    yRange = [height - marginBottom, marginTop], // [bottom, top]
-    yFormat, // a format specifier string for the y-axis
-    yLabel, // a label for the y-axis
-    color = "currentColor", // stroke color of line
-    strokeLinecap = "round", // stroke line cap of the line
-    strokeLinejoin = "round", // stroke line join of the line
-    strokeWidth = 4, // stroke width of line, in pixels
-    strokeOpacity = 1, // stroke opacity of line
-} = {}) {
-    // Compute values.
-    const X = d3.map(data, x);
-    const Y = d3.map(data, y);
-    const I = d3.range(X.length);
-    if (defined === undefined) defined = (d, i) => !isNaN(X[i]) && !isNaN(Y[i]);
-    const D = d3.map(data, defined);
-  
-    // Compute default domains.
-    if (xDomain === undefined) xDomain = d3.extent(X);
-    if (yDomain === undefined) yDomain = [0, d3.max(Y)];
-  
-    // Construct scales and axes.
-    const xScale = xType(xDomain, xRange);
-    const yScale = yType(yDomain, yRange);
-    const xAxis = d3.axisBottom(xScale).ticks(width / 80).tickSizeOuter(0);
-    const yAxis = d3.axisLeft(yScale).ticks(height / 40, yFormat);
-  
-    // Construct a line generator.
-    const line = d3.line()
-        .defined(i => D[i])
-        .curve(curve)
-        .x(i => xScale(X[i]))
-        .y(i => yScale(Y[i]));
-  
-    const svg = d3.create("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
-        .attr("style", "max-width: 100%;");
-  
-    svg.append("g")
-        .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(xAxis);
-  
-    svg.append("g")
-        .attr("transform", `translate(${marginLeft},0)`)
-        .call(yAxis)
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll(".tick line").clone()
-            .attr("x2", width - marginLeft - marginRight)
-            .attr("stroke-opacity", 0.1))
-        .call(g => g.append("text")
-            .attr("x", -marginLeft)
-            .attr("y", 10)
-            .attr("fill", "currentColor")
-            .attr("text-anchor", "start")
-            .text(yLabel));
-  
-    svg.append("path")
-        .attr("fill", "none")
-        .attr("stroke", color)
-        .attr("stroke-width", strokeWidth)
-        .attr("stroke-linecap", strokeLinecap)
-        .attr("stroke-linejoin", strokeLinejoin)
-        .attr("stroke-opacity", strokeOpacity)
-        .attr("d", line(I));
-  
-    return svg.node();
-}
-
-let dat = [
-    {
-        'person': 0,
-        'percentile': 50
-    },
-    {
-        'person': 1,
-        'percentile': 64
-    }];
-
-var chart = LineChart(dat, {
-    x: d => d.person,
-    y: d => d.percentile,
-    yLabel: "Percentile in the National Distribution",
-    height: 500,
-    color: "steelblue"
-});
+import * as am5 from "@amcharts/amcharts5";
+import * as am5xy from "@amcharts/amcharts5/xy";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 
-function Graph(props) {
-    return (
-        <div className="content" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(chart)}}></div>
-    );
+class Graph extends Component {
+    componentDidMount() {
+        let root = am5.Root.new("chartdiv");
+        root.setThemes([
+        am5themes_Animated.new(root)
+        ]);
+    
+        var chart = root.container.children.push(am5xy.XYChart.new(root, {
+            maxTooltipDistance: 0,
+        }));
+    
+        var data = [
+            {
+                value: 0.1,
+                probability: 0.3
+            },
+            {
+                value: 0.5,
+                probability: 0.4
+            },
+            {
+                value: 0.9,
+                probability: 0.3
+            },
+        ]
+    
+        // Create axes
+        // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+        var xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
+            min: 0,
+            max: 1,
+            renderer: am5xy.AxisRendererX.new(root, {})
+        }));
+    
+        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            min: 0,
+            max: 1,
+            renderer: am5xy.AxisRendererY.new(root, {})
+        }));
+    
+    
+        // Add series
+        // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+        for (var i = 0; i < 3; i++) {
+            var series = chart.series.push(am5xy.SmoothedXLineSeries.new(root, {
+                name: "Series " + i,
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "probability",
+                valueXField: "value",
+                tooltip: am5.Tooltip.new(root, {
+                    pointerOrientation: "horizontal",
+                    labelText: "{valueY}"
+                })
+            }));
+        
+            series.data.setAll(data);
+    
+            series.appear();
+        }
+    
+        // Add cursor
+        // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+        var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+            behavior: "none"
+        }));
+        cursor.lineY.set("visible", false);    
+    
+        var legend = chart.rightAxesContainer.children.push(am5.Legend.new(root, {
+            width: 100,
+            paddingLeft: 15,
+            height: am5.percent(100)
+        }));
+    
+        // When legend item container is hovered, dim all the series except the hovered one
+        legend.itemContainers.template.events.on("pointerover", function(e) {
+        var itemContainer = e.target;
+    
+        // As series list is data of a legend, dataContext is series
+        var series = itemContainer.dataItem.dataContext;
+    
+        chart.series.each(function(chartSeries) {
+            if (chartSeries != series) {
+            chartSeries.strokes.template.setAll({
+                strokeOpacity: 0.15,
+                stroke: am5.color(0x000000)
+            });
+            } else {
+            chartSeries.strokes.template.setAll({
+                strokeWidth: 3
+            });
+            }
+        })
+        })
+    
+        // When legend item container is unhovered, make all series as they are
+        legend.itemContainers.template.events.on("pointerout", function(e) {
+        var itemContainer = e.target;
+        var series = itemContainer.dataItem.dataContext;
+    
+        chart.series.each(function(chartSeries) {
+            chartSeries.strokes.template.setAll({
+                strokeOpacity: 1,
+                strokeWidth: 1,
+                stroke: chartSeries.get("fill")
+            });
+        });
+        })
+    
+        legend.itemContainers.template.set("width", am5.p100);
+    
+        legend.data.setAll(chart.series.values);
+
+        chart.appear(1000, 100);
+        this.root = root;
+    }
+
+    componentWillUnmount() {
+        if (this.root) {
+          this.root.dispose();
+        }
+    }
+
+    render() {
+        return (
+            <div className="chartContainer">
+                <div id="chartdiv"></div>
+                <button type="button" className="btn btn-primary">Generate</button>
+            </div>
+        );
+    }
 }
 
 export default Graph;
