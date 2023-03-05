@@ -1,9 +1,5 @@
-# Repo Name
-
-
-## Setting up the project locally
-
-The application is setup to work with a [Firestore database](https://firebase.google.com/docs/firestore). You'll need to copy the `firebaseConfig` JSON into `/src/firebaseConfig.json` to link your application with the backend.
+# mobility-web
+Estimate your child's economic outcomes using characteristics of your neighborhood.
 
 ## Available scripts
 
