@@ -28,7 +28,8 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": ["only-warn"]
   },
   "browserslist": {
     "production": [
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-only-warn": "^1.1.0"
   }
 }
