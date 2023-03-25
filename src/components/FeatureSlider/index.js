@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Row, Col, Card, Input } from 'reactstrap'
 import RangeSlider from 'react-bootstrap-range-slider';
@@ -11,11 +11,20 @@ function FeatureSlider(props) {
         initial = Math.floor((props.feature.max + props.feature.min) / 2)
     }
 
-    const [ val, setVal ] = useState(initial); 
+    const [ val, setVal ] = useState(0); 
 
     function removeFeatureHandler() {
         props.removeFeature(props.id);
     }
+
+    function handleSetValue(val) {
+        setVal(val);
+        props.handleSetValue(props.id, parseInt(val));
+    }
+
+    useEffect(() => {
+        handleSetValue(initial);
+    }, []);
 
     return (
         <Card>
@@ -32,7 +41,7 @@ function FeatureSlider(props) {
                         min={props.feature.min}
                         max={props.feature.max}
                         value={val}
-                        onChange={changeEvent => setVal(changeEvent.target.value)}
+                        onChange={changeEvent => handleSetValue(changeEvent.target.value)}
                         tooltip='off'
                     />
                 </Col>
@@ -40,7 +49,7 @@ function FeatureSlider(props) {
                     <span id="sliderNum" style={{paddingRight: '0rem', float: 'left'}}>{(props.feature.max).toLocaleString("en-US")}</span>
                 </Col>
                 <Col xs="12" md="2" id="numInput">
-                    <Input type="number" value={val} onChange={changeEvent => setVal(changeEvent.target.value)}></Input>
+                    <Input type="number" value={val} onChange={changeEvent => handleSetValue(changeEvent.target.value)}></Input>
                 </Col>
             </Row>
         </Card>

@@ -1,0 +1,11 @@
+#chartdiv_prediction {
+    width: 100%;
+    height: 500px;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+    .chartContainer {
+        margin-top: 2rem;
+    }
+}

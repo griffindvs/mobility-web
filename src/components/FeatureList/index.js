@@ -40,6 +40,13 @@ function FeatureList(props) {
         }
     }
 
+    function handleSetValue(key, val) {
+        let newFts = props.curFeatures;
+        newFts[key] = val;
+
+        props.handleSetCurFeatures(newFts);
+    }
+
     return (
         <div>
             { showAlert &&
@@ -51,7 +58,7 @@ function FeatureList(props) {
                 </div>
             }
             {features.map((id, index)=>{
-                return <FeatureSlider key={index} id={id} feature={FEATURE_LIST[id]} removeFeature={removeFeatureHandler}/>
+                return <FeatureSlider key={index} id={id} feature={FEATURE_LIST[id]} removeFeature={removeFeatureHandler} handleSetValue={handleSetValue} />
             })}
             <FeatureSearch features={FEATURE_LIST} addFeature={addFeatureHandler} selected={features} />
         </div>

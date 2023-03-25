@@ -13,6 +13,7 @@
     "react": "^18.2.0",
     "react-bootstrap-range-slider": "^3.0.8",
     "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.3.4",
     "react-scripts": "^5.0.1",
     "reactstrap": "^9.1.4",
     "web-vitals": "^2.1.4"

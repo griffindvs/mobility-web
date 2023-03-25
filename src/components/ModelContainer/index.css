@@ -14,3 +14,15 @@
 .subtitle {
     font-weight: 300;
 }
+
+#spinner {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+}
+
+.nav-tabs {
+    margin-bottom: 1rem;
+}
+  
