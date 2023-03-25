@@ -24,7 +24,7 @@ function FeatureSlider(props) {
 
     useEffect(() => {
         handleSetValue(initial);
-    }, []);
+    });
 
     return (
         <Card>

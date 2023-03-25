@@ -143,6 +143,7 @@ class PredictionGraph extends Component {
 
             var root = this.root;
             // add error bar
+            // eslint-disable-next-line
             series.bullets.push(function() {
                 var graphics = am5.Graphics.new(root, {
                   stroke: series.get("stroke"),
