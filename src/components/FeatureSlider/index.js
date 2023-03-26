@@ -24,7 +24,8 @@ function FeatureSlider(props) {
 
     useEffect(() => {
         handleSetValue(initial);
-    });
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <Card>
