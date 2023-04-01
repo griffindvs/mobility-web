@@ -17,32 +17,21 @@ import FeatureList from '../FeatureList';
 import DistributionGraph from '../DistributionGraph';
 import PredictionGraph from '../PredictionGraph';
 
-const API = "https://632b-54-167-52-69.ngrok.io/predictions/";
+import FEATURE_LIST from '../features.js';
 
-const initialFeatures = {
-    "hhinc_mean2000": "nan",
-    "med_hhinc2016": "nan",
-    "med_hhinc1990": "nan",
-    "popdensity2010": "nan",
-    "popdensity2000": "nan",
-    "mean_commutetime2000": "nan",
-    "frac_coll_plus2010": "nan",
-    "frac_coll_plus2000": "nan",
-    "poor_share2010": "nan",
-    "poor_share2000": "nan",
-    "poor_share1990": "nan",
-    "gsmn_math_g3_2013": "nan",
-    "traveltime15_2010": "nan",
-    "emp2000": "nan",
-    "singleparent_share2010": "nan",
-    "singleparent_share2000": "nan",
-    "singleparent_share1990": "nan",
-    "mail_return_rate2010": "nan",
-    "jobs_total_5mi_2015": "nan",
-    "jobs_highpay_5mi_2015": "nan",
-    "job_density_2013": "nan",
-    "ann_avg_job_growth_2004_2013": "nan"
-}
+const API = "https://734f-54-167-52-69.ngrok.io/predictions/";
+
+const percentFeats = ['frac_coll_plus2000', 'frac_coll_plus2010', 'poor_share1990', 'poor_share2000', 'poor_share2010', 
+    'emp2000', 'singleparent_share1990', 'singleparent_share2000', 'singleparent_share2010', 'traveltime15_2010'];
+
+const initialFeatures = {};
+Object.keys(FEATURE_LIST).forEach(function(key) {
+    if (percentFeats.includes(key)) {
+        initialFeatures[key] = FEATURE_LIST[key]['mean'] * 100;
+    } else {
+        initialFeatures[key] = FEATURE_LIST[key]['mean'];
+    }
+});
 
 async function callApi(input, model) {
     const resp = await fetch(API + model, {
@@ -73,7 +62,6 @@ function ModelContainer(props) {
         setDistrGraphActive(false);
     }
 
-    const percentFeats = ['frac_coll_plus2010', 'poor_share2010', 'emp2000', 'singleparent_share2010', 'traveltime15_2010'];
     async function useModel() {
         let inArray = [];
         Object.entries(curFeatures).forEach(([key, value]) => {
@@ -81,20 +69,26 @@ function ModelContainer(props) {
                 value = value / 100;
             }
             
-            inArray.push(value);
+            inArray.push((value - FEATURE_LIST[key]['mean'])/FEATURE_LIST[key]['sd']);
         });
         let preparedInput = {
             "input": inArray
         };
         setLoading(true);
-        let p25 = await callApi(preparedInput, "25p_em_mdn");
-        let p50 = await callApi(preparedInput, "50p_em_mdn");
-        let p75 = await callApi(preparedInput, "75p_em_mdn");
+
+        const percentiles = ["25", "50", "75"]
+        const responses = await Promise.all(
+            percentiles.map(async p => {
+                const res = await callApi(preparedInput, `${p}p_em_mdn`);
+                return res;
+            })
+        )
+
         setLoading(false);
         setDisplayData({
-            'p25': p25,
-            'p50': p50,
-            'p75': p75
+            'p25': responses[0],
+            'p50': responses[1],
+            'p75': responses[2]
         });
     }
 
@@ -103,6 +97,10 @@ function ModelContainer(props) {
             <Container id="header">
                 <h1 className="title">Mobility ML</h1>
                 <h2 className="subtitle">Predict outcomes from neighborhood characteristics</h2>
+                <p>All inputs are preset to the mean among all US <a href="https://www.census.gov/programs-surveys/geography/about/glossary.html#par_textimage_13">Census Tracts</a>.
+                    If you wish to remove a feature from the input, press the "x" button. <br />
+                    Removed features can be re-added using the search bar at the bottom of the page.
+                </p>
             </Container>
             <Row className="mx-auto">
                 <Col sm="12" lg="7">
@@ -134,8 +132,12 @@ function ModelContainer(props) {
                     { distrGraphActive && <DistributionGraph inData={displayData} reset={loading} /> }
                     { !distrGraphActive && <PredictionGraph inData={displayData} reset={loading} /> }
                     <button type="button" className="btn btn-primary" onClick={useModel}>Generate</button>
+                    <p><br /><em>Note: Predictions take around 30 seconds to generate</em></p>
                 </Col>
             </Row>
+            <Container id="footer">
+                <p>Griffin Davis &copy; 2023 | <a href="https://gcd.dev">gcd.dev</a></p>
+            </Container>
         </Container>
     );
 }

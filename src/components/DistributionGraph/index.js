@@ -162,21 +162,16 @@ class DistributionGraph extends Component {
     }
 
     componentDidUpdate() {
-        console.log("resrt:" + this.props.reset);
-        if (this.props.reset) {
-            if (this.root) {
-                this.root.dispose();
-
-                let root = am5.Root.new("chartdiv_prediction");
-                root.setThemes([
-                    am5themes_Animated.new(root)
-                ]);
-
-                this.root = root;
-            }
-        }
-
         if (this.props.inData['p25']) {
+            this.root.dispose();
+
+            let root = am5.Root.new("chartdiv_prediction");
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            this.root = root;
+
             this.buildChart();
         }
     }

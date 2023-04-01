@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 
 import './index.css';
 
-import FEATURE_LIST from '../features.json';
+import FEATURE_LIST from '../features.js';
 
 import FeatureSearch from '../FeatureSearch';
 import FeatureSlider from '../FeatureSlider';
 
+const initialFeatures = [];
+Object.keys(FEATURE_LIST).forEach(function(key) {
+    initialFeatures.push(key);
+});
+
 function FeatureList(props) {
-    const [features, setFeatures] = useState(
-        ["hhinc_mean2000", "med_hhinc2016", "popdensity2010", "mean_commutetime2000", 
-        "frac_coll_plus2010", "poor_share2010", "gsmn_math_g3_2013", "traveltime15_2010", 
-        "emp2000", "singleparent_share2010"]);
+    const [features, setFeatures] = useState(initialFeatures);
     const [showAlert, setShowAlert] = useState(false);
 
     function handleAlert() {

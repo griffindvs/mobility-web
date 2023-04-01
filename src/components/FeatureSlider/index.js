@@ -1,31 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { Row, Col, Card, Input } from 'reactstrap'
 import RangeSlider from 'react-bootstrap-range-slider';
 
 import './index.css';
 
-function FeatureSlider(props) {
-    let initial = 0;
-    if (props.feature.min !== 0 && props.feature.max !== 0) {
-        initial = Math.floor((props.feature.max + props.feature.min) / 2)
-    }
+const percentFeats = ['frac_coll_plus2000', 'frac_coll_plus2010', 'poor_share1990', 'poor_share2000', 'poor_share2010', 
+    'emp2000', 'singleparent_share1990', 'singleparent_share2000', 'singleparent_share2010', 'traveltime15_2010'];
 
-    const [ val, setVal ] = useState(0); 
+function FeatureSlider(props) {
+    const initialVal = percentFeats.includes(props.id) ? props.feature["mean"]*100 : props.feature["mean"];
+    const [ val, setVal ] = useState(initialVal); 
 
     function removeFeatureHandler() {
         props.removeFeature(props.id);
+        props.handleSetValue(props.id, "nan");
     }
 
     function handleSetValue(val) {
         setVal(val);
         props.handleSetValue(props.id, parseInt(val));
     }
-
-    useEffect(() => {
-        handleSetValue(initial);
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <Card>

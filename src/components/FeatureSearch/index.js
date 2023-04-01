@@ -4,7 +4,7 @@ import { Card, InputGroup, InputGroupText, Input } from 'reactstrap'
 
 import './index.css';
 
-import FEATURE_LIST from '../features.json';
+import FEATURE_LIST from '../features';
 
 function Scroll(props) {
     if (props.display) {

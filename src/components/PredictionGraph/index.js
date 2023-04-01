@@ -105,9 +105,6 @@ class PredictionGraph extends Component {
             renderer: am5xy.AxisRendererY.new(this.root, {})
         }));
 
-        // Clear any old series
-        //chart.series.removeAll();
-
         // Add series
         // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
         for (var i = 0; i < 3; i++) {
@@ -349,6 +346,15 @@ class PredictionGraph extends Component {
 
     componentDidUpdate() {
         if (this.props.inData['p25']) {
+            this.root.dispose();
+
+            let root = am5.Root.new("chartdiv_prediction");
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            this.root = root;
+
             this.buildChart();
         }
     }
